@@ -9,9 +9,13 @@ struct ptr_array {
 	size_t used;
 };
 
+/* ptr_arr - struct ptr_array *.
+ * el - pointer to whatever it is that you store in the array.
+ * tmp - an identifier that you promise not to use.
+ * */
 #define ptr_arr_foreach(ptr_arr, el, tmp)		\
 	for (size_t tmp = 0;				\
-		(tmp < (ptr_arr)->used)		\
+		(tmp < (ptr_arr)->used)			\
 			? el = (ptr_arr)->arr[tmp], 1	\
 			: 0;				\
 		tmp++)
