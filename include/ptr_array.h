@@ -11,14 +11,14 @@ struct ptr_array {
 
 /* ptr_arr - struct ptr_array *.
  * el - pointer to whatever it is that you store in the array.
- * tmp - an identifier that you promise not to use.
+ * idx - index of the element.
  * */
-#define ptr_arr_foreach(ptr_arr, el, tmp)		\
-	for (size_t tmp = 0;				\
-		(tmp < (ptr_arr)->used)			\
-			? el = (ptr_arr)->arr[tmp], 1	\
+#define ptr_arr_foreach(ptr_arr, el, idx)		\
+	for (size_t idx = 0;				\
+		(idx < (ptr_arr)->used)			\
+			? el = (ptr_arr)->arr[idx], 1	\
 			: 0;				\
-		tmp++)
+		idx++)
 
 void ptr_arr_init(struct ptr_array *arr, size_t init_size);
 void ptr_arr_add(struct ptr_array *arr, void *ptr);
