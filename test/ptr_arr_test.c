@@ -11,14 +11,14 @@ int main(void)
 	for (i = 0; i < 16; i++) {
 		ptr = malloc(sizeof(*ptr));
 		*ptr = i;
-		ptr_arr_append(&arr, ptr);
+		ptr_arr_add(&arr, ptr);
 	}
-	ptr_arr_foreach(ptr, &arr, tmp) {
+	ptr_arr_foreach(&arr, ptr, tmp) {
 		printf("%i\n", *ptr);
 	}
-	ptr_arr_foreach(ptr, &arr, tmp) {
+	ptr_arr_foreach(&arr, ptr, tmp) {
 		free(ptr);
 	}
-	ptr_arr_destroy(&arr);
+	ptr_arr_delete(&arr);
 	return 0;
 }

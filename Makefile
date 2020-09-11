@@ -27,7 +27,10 @@ buf_echo: buf_echo.c buf.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	$(RM) $(TARGETS) *.o *.so *.exe *.dll
+	$(RM) $(TARGETS) *.o *.so *.exe *.dll test/*.test
+
+run-tests: all
+	./test.sh
 
 install: $(LIB)
 	$(MKDIR) $(PROJ_LIB_DIR)
