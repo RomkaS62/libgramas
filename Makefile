@@ -1,4 +1,4 @@
-PROJECT_NAME=libutil
+PROJECT_NAME=libgramas
 
 include config.mk
 
@@ -7,7 +7,7 @@ LIB=$(LIB_BASE_NAME).so
 
 # Install paths
 SYS_LIB_DIR=$(BASE_DIR)/lib
-PROJ_LIB_DIR=$(SYS_LIB_DIR)/$(LIB_BASE_NAME)
+PROJ_LIB_DIR=$(SYS_LIB_DIR)
 SYS_INCLUDE_DIR=$(BASE_DIR)/include
 PROJ_INCLUDE_DIR=$(SYS_INCLUDE_DIR)/$(LIB_BASE_NAME)
 
@@ -17,7 +17,7 @@ MKDIR=mkdir -p
 
 all: $(TARGETS)
 
-libutil.so: buf.c ptr_array.c
+libgramas.so: buf.c ptr_array.c matrix.c
 	$(CC) $(CFLAGS) -shared -o $@ $^
 
 ptr_arr_echo: ptr_arr_echo.c ptr_array.o
