@@ -21,7 +21,9 @@ struct gr_matrix {
 };
 
 void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t cols);
+void gr_mtx_destroy(struct gr_matrix * const mtx);
 struct gr_matrix * gr_mtx_new(size_t rows, size_t cols);
+void gr_mtx_delete(struct gr_matrix * const mtx);
 struct gr_matrix * gr_mtx_add(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);

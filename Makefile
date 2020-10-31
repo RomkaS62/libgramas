@@ -11,7 +11,7 @@ PROJ_LIB_DIR=$(SYS_LIB_DIR)
 SYS_INCLUDE_DIR=$(BASE_DIR)/include
 PROJ_INCLUDE_DIR=$(SYS_INCLUDE_DIR)/$(LIB_BASE_NAME)
 
-TARGETS=$(LIB) ptr_arr_echo buf_echo
+TARGETS=$(LIB) ptr_arr_echo buf_echo matrix-test
 CFLAGS+=-fPIC -g -Iinclude
 MKDIR=mkdir -p
 
@@ -25,6 +25,9 @@ ptr_arr_echo: ptr_arr_echo.c ptr_array.o
 
 buf_echo: buf_echo.c buf.o
 	$(CC) $(CFLAGS) -o $@ $^
+
+matrix-test: matrix-test.c
+	$(CC) $(CFLAGS) -o $@ $^ -lgramas
 
 clean:
 	$(RM) $(TARGETS) *.o *.so *.exe *.dll test/*.test

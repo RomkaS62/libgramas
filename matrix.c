@@ -8,6 +8,11 @@ void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t c
 	mtx->values = malloc(sizeof(mtx->values[0]));
 }
 
+void gr_mtx_destroy(struct gr_matrix * const mtx)
+{
+	free(mtx->values);
+}
+
 struct gr_matrix * gr_mtx_new(size_t rows, size_t cols)
 {
 	struct gr_matrix *ret = malloc(sizeof(*ret));
@@ -16,6 +21,12 @@ struct gr_matrix * gr_mtx_new(size_t rows, size_t cols)
 	gr_mtx_init(ret, rows, cols);
 
 	return ret;
+}
+
+void gr_mtx_delete(struct gr_matrix * const mtx)
+{
+	free(mtx->values);
+	free(mtx);
 }
 
 struct gr_matrix * gr_mtx_add(
