@@ -17,7 +17,7 @@ MKDIR=mkdir -p
 
 all: $(TARGETS)
 
-libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c
+libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c gr_str.c
 	$(CC) $(CFLAGS) -shared -o $@ $^
 
 ptr_arr_echo: ptr_arr_echo.c ptr_array.o
