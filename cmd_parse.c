@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 #include "cmd_parse.h"
 #include "gr_str.h"
 
@@ -15,7 +16,7 @@ get_switch_parser(const struct gr_cmd_parser * const parser, const char *sw);
 
 int gr_parse_str(const char *cmd_arg, void *target)
 {
-	target = cmd_arg;
+	target = (void *)cmd_arg;
 	return 0;
 }
 
