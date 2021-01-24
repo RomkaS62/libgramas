@@ -121,6 +121,7 @@ char * gr_parse_generate_help(struct gr_cmd_parser *parser)
 	struct gr_parse_switch *sw;
 	struct gr_str str;
 
+	gr_str_init(&str);
 	gr_sprintf_a(&str, "%s\n", parser->help_text);
 	for (i = 0; i < parser->arg_count; i++) {
 		arg = &parser->args[i];
