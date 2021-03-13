@@ -1,11 +1,15 @@
-for FILE in test/*.c
+for TEST in tst_*
 do
-	cc $FILE -Iinclude -o "$FILE.test" -lgramas
-	$FILE.test
-	if [ $? -ne 0 ]
+	if [[ $TEST =~ \.[a-zA-Z]+$ ]]
 	then
-		RET=$?
-		echo "Test failed: $FILE"
-		return $RET
+		continue
+	fi
+	./$TEST
+	RETVAL=$?
+	if [[ $RETVAL -ne 0 ]]
+	then
+		echo "[ERROR] Test $TEST failed. Returned with value $RETVAL"
+	else
+		echo "[OK] $TEST"
 	fi
 done

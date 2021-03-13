@@ -17,8 +17,8 @@ struct gr_hash_map {
 	size_t element_count;
 	uint64_t (*hash)(char *key);
 	int (*keys_equal)(char *key1, char *key2);
-	void (*free_key)(char *key);
-	void (*free_data)(char *data);
+	void (*free_key)(char *key);	/* Frees hash table key upon deleting an entry */
+	void (*free_data)(char *data);	/* Frees data associated with a key */
 };
 
 struct gr_hash_map *

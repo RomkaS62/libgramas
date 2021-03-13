@@ -41,6 +41,12 @@ remove_entry(
 	size_t bucket_idx,
 	struct gr_hash_map_entry *entry);
 
+static void
+free_entry(
+	struct gr_hash_map_entry *entry,
+	void (*free_key)(char *),
+	void (*free_data)(char *));
+
 void
 gr_hash_map_init(
 	struct gr_hash_map *map,

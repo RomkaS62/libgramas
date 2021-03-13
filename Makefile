@@ -1,4 +1,5 @@
-PROJECT_NAME=libgramas
+LIB_LINK_NAME=gramas
+PROJECT_NAME=lib$(LIB_LINK_NAME)
 
 include config.mk
 
@@ -11,13 +12,13 @@ PROJ_LIB_DIR=$(SYS_LIB_DIR)
 SYS_INCLUDE_DIR=$(BASE_DIR)/include
 PROJ_INCLUDE_DIR=$(SYS_INCLUDE_DIR)/$(LIB_BASE_NAME)
 
-TARGETS=$(LIB) ptr_arr_echo buf_echo utf8-echo
+TARGETS=$(LIB) ptr_arr_echo buf_echo utf8-echo tst_hash_map_put
 CFLAGS+=-fPIC -g -Iinclude
 MKDIR=mkdir -p
 
 all: $(TARGETS)
 
-libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c gr_str.c utf8.c
+libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c gr_str.c utf8.c hash_map.c
 	$(CC) $(CFLAGS) -shared -o $@ $^
 
 ptr_arr_echo: ptr_arr_echo.c ptr_array.o
@@ -28,6 +29,9 @@ buf_echo: buf_echo.c buf.o
 
 utf8-echo: utf8-echo.c utf8.c
 	$(CC) $(CFLAGS) -o $@ $^
+
+tst_hash_map_put: tst_hash_map_put.c
+	$(CC) $(CFLAGS) -o $@ tst_hash_map_put.c -l$(LIB_LINK_NAME)
 
 clean:
 	$(RM) $(TARGETS) *.o *.so *.exe *.dll test/*.test
