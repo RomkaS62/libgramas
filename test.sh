@@ -1,4 +1,4 @@
-for TEST in tst_*
+for TEST in test/tst_*
 do
 	if [[ $TEST =~ \.[a-zA-Z]+$ ]]
 	then

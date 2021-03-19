@@ -12,7 +12,7 @@ PROJ_LIB_DIR=$(SYS_LIB_DIR)
 SYS_INCLUDE_DIR=$(BASE_DIR)/include
 PROJ_INCLUDE_DIR=$(SYS_INCLUDE_DIR)/$(LIB_BASE_NAME)
 
-TARGETS=$(LIB) ptr_arr_echo buf_echo utf8-echo tst_hash_map_put
+TARGETS=$(LIB) ptr_arr_echo buf_echo utf8-echo
 CFLAGS+=-fPIC -g -Iinclude
 MKDIR=mkdir -p
 
@@ -30,13 +30,11 @@ buf_echo: buf_echo.c buf.o
 utf8-echo: utf8-echo.c utf8.c
 	$(CC) $(CFLAGS) -o $@ $^
 
-tst_hash_map_put: tst_hash_map_put.c
-	$(CC) $(CFLAGS) -o $@ tst_hash_map_put.c -l$(LIB_LINK_NAME)
-
 clean:
 	$(RM) $(TARGETS) *.o *.so *.exe *.dll test/*.test
 
 run-tests: all
+	CC=$(CC) CFLAGS="$(CFLAGS)" LIB_LINK_NAME=$(LIB_LINK_NAME) ./build-tests.sh
 	./test.sh
 
 install: $(LIB)

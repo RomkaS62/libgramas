@@ -5,6 +5,7 @@ int main(void)
 {
 	int i;
 	int *ptr;
+	int ret = 0;
 	struct ptr_array arr;
 
 	ptr_arr_init(&arr, 8);
@@ -13,12 +14,19 @@ int main(void)
 		*ptr = i;
 		ptr_arr_add(&arr, ptr);
 	}
-	ptr_arr_foreach(&arr, ptr, tmp) {
-		printf("%i\n", *ptr);
+	ptr_arr_foreach(&arr, ptr, j) {
+		if (*ptr != j) {
+			goto fail;
+		}
 	}
+	goto end;
+
+fail:
+	ret = 1;
+end:
 	ptr_arr_foreach(&arr, ptr, tmp) {
 		free(ptr);
 	}
 	ptr_arr_delete(&arr);
-	return 0;
+	return ret;
 }
