@@ -9,10 +9,10 @@
 #define buf_append_str(buf, str)	buf_append_arr((buf), (str), strlen(str))
 
 static struct gr_parse_arg *
-get_arg_parser(const struct gr_cmd_parser * const parser, const char *arg);
+get_arg_definition(const struct gr_cmd_parser * const parser, const char *arg);
 
 static struct gr_parse_switch *
-get_switch_parser(const struct gr_cmd_parser * const parser, const char *sw);
+get_switch_definition(const struct gr_cmd_parser * const parser, const char *sw);
 
 int gr_parse_str(const char *cmd_arg, void *target)
 {
@@ -82,14 +82,15 @@ int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count)
 			i++;
 			break;
 		}
-		arg_parser = get_arg_parser(parser, arg);
-		sw_parser = get_switch_parser(parser, arg);
+		arg_parser = get_arg_definition(parser, arg);
+		sw_parser = get_switch_definition(parser, arg);
 		if (arg_parser != NULL) {
 			if (i + 1 < count) {
 				i++;
 			} else {
 				fputs("Unexpected end of command line!", stderr);
 				ret = GR_PARSE_CMD_UNEXPECTED_EOL;
+				goto err;
 			}
 			arg = args[i];
 			if (err = arg_parser->on_arg(arg, arg_parser->on_arg)) {
@@ -98,8 +99,6 @@ int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count)
 		} else if (sw_parser != NULL) {
 			*sw_parser->target |= 1 << sw_parser->bit;
 		} else {
-			fprintf(stderr, "Unrecognised argument: \"%s\"\n", arg);
-			ret = GR_PARSE_CMD_UNRECOGNISED_ARG;
 			break;
 		}
 	}
@@ -109,6 +108,7 @@ int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count)
 			parser->on_default_arg_err(arg, err);
 		}
 	}
+err:
 	return ret;
 }
 
@@ -135,7 +135,7 @@ char * gr_parse_generate_help(struct gr_cmd_parser *parser)
 }
 
 static struct gr_parse_arg *
-get_arg_parser(const struct gr_cmd_parser * const parser, const char *arg)
+get_arg_definition(const struct gr_cmd_parser * const parser, const char *arg)
 {
 	size_t i;
 	struct gr_parse_arg *ret = NULL;
@@ -153,7 +153,7 @@ get_arg_parser(const struct gr_cmd_parser * const parser, const char *arg)
 }
 
 static struct gr_parse_switch *
-get_switch_parser(const struct gr_cmd_parser * const parser, const char *sw)
+get_switch_definition(const struct gr_cmd_parser * const parser, const char *sw)
 {
 	size_t i;
 	struct gr_parse_switch *ret = NULL;
