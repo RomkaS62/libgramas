@@ -24,6 +24,7 @@ void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t c
 void gr_mtx_destroy(struct gr_matrix * const mtx);
 struct gr_matrix * gr_mtx_new(size_t rows, size_t cols);
 void gr_mtx_delete(struct gr_matrix * const mtx);
+
 struct gr_matrix * gr_mtx_add(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
@@ -32,9 +33,22 @@ struct gr_matrix * gr_mtx_sub(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
 
+/* Basic matrix multiplication */
 struct gr_matrix * gr_mtx_mul(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
+
+/* Matrix multiplication with the right matrix transposed. */
+struct gr_matrix * gr_mtx_mul_tr_r(
+	const struct gr_matrix * const mtx1,
+	const struct gr_matrix * const mtx2);
+
+struct gr_matrix * gr_mtx_row_sum(const struct gr_matrix * const mtx);
+
+/* Matrix operations that modify first operand */
+
+void gr_mtx_square_m(struct gr_matrix * const mtx);
+void gr_mtx_sqrt_m(struct gr_matrix * const mtx);
 
 #define _CHECK_BOUNDS(mtx_ptr, row, col)	\
 	do {	\

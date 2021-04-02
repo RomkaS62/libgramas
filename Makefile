@@ -18,8 +18,8 @@ MKDIR=mkdir -p
 
 all: $(TARGETS)
 
-libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c gr_str.c utf8.c hash_map.c
-	$(CC) $(CFLAGS) -shared -o $@ $^
+libgramas.so: buf.c ptr_array.c matrix.c cmd_parse.c gr_str.c utf8.c hash_map.c space.c
+	$(CC) $(CFLAGS) -shared -o $@ $^ -lm
 
 ptr_arr_echo: ptr_arr_echo.c ptr_array.o
 	$(CC) $(CFLAGS) -o $@ $^
