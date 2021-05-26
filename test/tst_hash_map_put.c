@@ -21,7 +21,9 @@ int main(int argc, char **argv)
 	gr_hash_map_init(&map, int_hash, int_eq, int_free_key, str_free_data);
 
 	for (int i = 0; i < 4; i++) {
-		gr_hash_map_put(&map, (char *)malloc_int(keys[i]), copy_str(values[i]));
+		char *key = (char *)malloc_int(keys[i]);
+		char *value = copy_str(values[i]);
+		gr_hash_map_put(&map, key, value);
 	}
 
 	for (int i = 0; i < 4; i++) {
@@ -75,7 +77,7 @@ static int * malloc_int(int i)
 
 static char * copy_str(const char *str)
 {
-	char *ret = malloc(strlen(str));
+	char *ret = malloc(strlen(str) + 1);
 
 	strcpy(ret, str);
 

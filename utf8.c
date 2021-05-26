@@ -48,7 +48,6 @@ char * gr_ucs_to_utf8(const gr_ucs_char *ucs_str)
 	char *str;
 	char *ret;
 	size_t len;
-	size_t i;
 
 	len = gr_ucs_utf8_byte_len(ucs_str);
 	str = malloc(len + 1);

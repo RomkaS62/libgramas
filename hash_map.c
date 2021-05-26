@@ -55,6 +55,8 @@ gr_hash_map_init(
 	void (*free_key)(char *key),
 	void (*free_data)(char *data))
 {
+	size_t i;
+
 	map->hash = hash;
 	map->keys_equal = keys_equal;
 	map->free_key = free_key;
@@ -62,6 +64,9 @@ gr_hash_map_init(
 	map->bucket_capacity = 8;
 	map->element_count = 0;
 	map->entries = malloc(sizeof(map->entries[0]) * map->bucket_capacity);
+	for (i = 0; i < map->bucket_capacity; i++) {
+		map->entries[i] = NULL;
+	}
 }
 
 void gr_hash_map_delete(struct gr_hash_map *map)
