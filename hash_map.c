@@ -158,6 +158,8 @@ gr_hash_map_entry_new(
 	ret->data = data;
 	ret->prev = NULL;
 	ret->next = NULL;
+
+	return ret;
 }
 
 static void consider_rehash(struct gr_hash_map *map)
