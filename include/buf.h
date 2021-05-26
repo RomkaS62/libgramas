@@ -1,11 +1,11 @@
-#ifndef LIBUTIL_BUF_H
-#define LIBUTIL_BUF_H
+#ifndef LIBGRAMASL_BUF_H
+#define LIBGRAMASL_BUF_H
 
 #include <stdlib.h>
 
 /* Members are """private""". Do not touch with your dirty hands! */
 struct buffer {
-	void *buf;		/* Backing buffer		*/
+	char *buf;		/* Backing buffer		*/
 	size_t capacity;	/* Capacity in members		*/
 	size_t used;		/* Members present		*/
 	size_t member_size;	/* Size of a member in bytes	*/
@@ -33,5 +33,7 @@ void __buf_set(struct buffer *buf, size_t at, void *ptr, size_t size);
 void buf_remove_range(struct buffer *buf, size_t from, size_t to);
 /* Resizes internal buffer to fit the amount of elements actually stored. */
 void buf_trim(struct buffer *buf);
+void buf_clear(struct buffer *buf);
+void buf_append_arr(struct buffer *buf, const void *arr, const size_t members);
 
-#endif /* LIBUTIL_BUF_H */
+#endif /* LIBGRAMAS_BUF_H */

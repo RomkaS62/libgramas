@@ -64,7 +64,7 @@ void gr_parse_int_err(const char *cmd_arg)
 
 void gr_parse_uint_err(const char *cmd_arg)
 {
-	fprintf(stderr, "\"%s\" is not a valid unsigned integer!\n");
+	fprintf(stderr, "\"%s\" is not a valid unsigned integer!\n", cmd_arg);
 }
 
 int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count)

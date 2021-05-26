@@ -22,7 +22,7 @@ static inline int32_t get_bits(int32_t num, int from, int to)
 
 static inline void append_bits(int32_t *i, int32_t bits, int num)
 {
-	*i << num;
+	*i <<= num;
 	*i |= bits & ((~0 >> num) << num);
 }
 

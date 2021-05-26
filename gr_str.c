@@ -24,11 +24,14 @@ void gr_str_free(struct gr_str *str)
 
 void gr_sprintf(struct gr_str *str, const char *fmt, ...)
 {
-	int chars_needed;
+	int vsnp_ret;
+	size_t chars_needed;
 	va_list args;
 	
 	va_start(args, fmt);
-	chars_needed = vsnprintf(str->str, str->length, fmt, args);
+	vsnp_ret = vsnprintf(str->str, str->length, fmt, args);
+	if (vsnp_ret < 0) return;
+	chars_needed = (size_t)vsnp_ret;
 	va_end(args);
 	if (chars_needed >= str->length) {
 		str->str = realloc(str->str, chars_needed + 1);

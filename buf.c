@@ -20,6 +20,10 @@ static const char OUT_OF_BOUNDS[] =
 
 static void buf_ensure_capacity(struct buffer *buf, size_t capacity);
 static void buf_grow(struct buffer *buf);
+/**
+ * Returns pointer to first unused byte in buffer.
+ */
+static void * buf_end_ptr(const struct buffer * const buf);
 
 void buf_init(struct buffer *buf, size_t member_count, size_t member_size)
 {
@@ -87,13 +91,37 @@ void buf_remove_range(struct buffer *buf, size_t from, size_t to)
 	memmove(mov_to_addr, mov_from_addr, byte_count);
 }
 
+void buf_clear(struct buffer *buf)
+{
+	memset(buf->buf, 0, buf->capacity);
+}
+
+void buf_append_arr(struct buffer *buf, const void *arr, const size_t members)
+{
+	size_t i;
+	void *endptr;
+	size_t new_bytes;
+
+	new_bytes = buf->member_size * members;
+	if (!new_bytes) return;
+	buf_ensure_capacity(buf, buf->used + members);
+	endptr = buf_end_ptr(buf);
+	memcpy(endptr, arr, new_bytes);
+	buf->used += members;
+}
+
 static void buf_ensure_capacity(struct buffer *buf, size_t capacity)
 {
-	if (capacity > buf->capacity) buf_grow(buf);
+	while (capacity > buf->capacity) buf_grow(buf);
 }
 
 static void buf_grow(struct buffer *buf)
 {
 	buf->buf = realloc(buf->buf, buf->capacity * 2 * buf->member_size);
 	buf->capacity *= 2;
+}
+
+static void * buf_end_ptr(const struct buffer * const buf)
+{
+	return buf->buf + buf->capacity * buf->member_size;
 }

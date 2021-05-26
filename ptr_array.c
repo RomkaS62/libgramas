@@ -13,6 +13,7 @@ void ptr_arr_init(struct ptr_array *arr, size_t init_size)
 {
 	size_t i;
 
+	if (arr == NULL) return;
 	if (init_size == 0) {
 		init_size = 1;
 	}
