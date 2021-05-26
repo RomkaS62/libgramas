@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "gr_export.h"
 
 #define for_each_value(matrix_ptr, value, idx) \
 	for (size_t idx = 0; idx < (matrix_ptr)->rows * (matrix_ptr)->cols; idx++)
@@ -14,41 +15,43 @@
 				:	row = NULL, 0	\
 			; idx++)
 
-struct gr_matrix {
+GR_CDECL_BEGIN
+
+struct GR_EXPORT gr_matrix {
 	size_t rows;
 	size_t cols;
 	double *values;
 };
 
-void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t cols);
-void gr_mtx_destroy(struct gr_matrix * const mtx);
-struct gr_matrix * gr_mtx_new(size_t rows, size_t cols);
-void gr_mtx_delete(struct gr_matrix * const mtx);
+GR_EXPORT void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t cols);
+GR_EXPORT void gr_mtx_destroy(struct gr_matrix * const mtx);
+GR_EXPORT struct gr_matrix * gr_mtx_new(size_t rows, size_t cols);
+GR_EXPORT void gr_mtx_delete(struct gr_matrix * const mtx);
 
-struct gr_matrix * gr_mtx_add(
+GR_EXPORT struct gr_matrix * gr_mtx_add(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
 
-struct gr_matrix * gr_mtx_sub(
+GR_EXPORT struct gr_matrix * gr_mtx_sub(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
 
 /* Basic matrix multiplication */
-struct gr_matrix * gr_mtx_mul(
+GR_EXPORT struct gr_matrix * gr_mtx_mul(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
 
 /* Matrix multiplication with the right matrix transposed. */
-struct gr_matrix * gr_mtx_mul_tr_r(
+GR_EXPORT struct gr_matrix * gr_mtx_mul_tr_r(
 	const struct gr_matrix * const mtx1,
 	const struct gr_matrix * const mtx2);
 
-struct gr_matrix * gr_mtx_row_sum(const struct gr_matrix * const mtx);
+GR_EXPORT struct gr_matrix * gr_mtx_row_sum(const struct gr_matrix * const mtx);
 
 /* Matrix operations that modify first operand */
 
-void gr_mtx_square_m(struct gr_matrix * const mtx);
-void gr_mtx_sqrt_m(struct gr_matrix * const mtx);
+GR_EXPORT void gr_mtx_square_m(struct gr_matrix * const mtx);
+GR_EXPORT void gr_mtx_sqrt_m(struct gr_matrix * const mtx);
 
 #define _CHECK_BOUNDS(mtx_ptr, row, col)	\
 	do {	\
@@ -91,5 +94,7 @@ static inline double gr_mtx_val(const struct gr_matrix *mtx, size_t row, size_t 
 	_CHECK_BOUNDS_RET(mtx, row, col, 0.0);
 	return mtx->values[mtx->cols * row + col];
 }
+
+GR_CDECL_END
 
 #endif /* LIBGRAMAS_MATRIX_H */

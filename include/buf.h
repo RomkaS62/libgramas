@@ -2,9 +2,12 @@
 #define LIBGRAMASL_BUF_H
 
 #include <stdlib.h>
+#include "gr_export.h"
+
+GR_CDECL_BEGIN
 
 /* Members are """private""". Do not touch with your dirty hands! */
-struct buffer {
+struct GR_EXPORT buffer {
 	char *buf;		/* Backing buffer		*/
 	size_t capacity;	/* Capacity in members		*/
 	size_t used;		/* Members present		*/
@@ -25,15 +28,17 @@ struct buffer {
 			: 0;					\
 		idx++)
 
-void buf_init(struct buffer *buf, size_t member_count, size_t member_size);
-void buf_delete(struct buffer *buf);
-void buf_free(struct buffer *buf);
-void buf_append(struct buffer *buf, void *ptr);
-void __buf_set(struct buffer *buf, size_t at, void *ptr, size_t size);
-void buf_remove_range(struct buffer *buf, size_t from, size_t to);
+GR_EXPORT void buf_init(struct buffer *buf, size_t member_count, size_t member_size);
+GR_EXPORT void buf_delete(struct buffer *buf);
+GR_EXPORT void buf_free(struct buffer *buf);
+GR_EXPORT void buf_append(struct buffer *buf, void *ptr);
+GR_EXPORT void __buf_set(struct buffer *buf, size_t at, void *ptr, size_t size);
+GR_EXPORT void buf_remove_range(struct buffer *buf, size_t from, size_t to);
 /* Resizes internal buffer to fit the amount of elements actually stored. */
-void buf_trim(struct buffer *buf);
-void buf_clear(struct buffer *buf);
-void buf_append_arr(struct buffer *buf, const void *arr, const size_t members);
+GR_EXPORT void buf_trim(struct buffer *buf);
+GR_EXPORT void buf_clear(struct buffer *buf);
+GR_EXPORT void buf_append_arr(struct buffer *buf, const void *arr, const size_t members);
+
+GR_CDECL_END
 
 #endif /* LIBGRAMAS_BUF_H */

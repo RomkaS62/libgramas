@@ -2,11 +2,14 @@
 #define GRAMAS_CMD_PARSE_H
 
 #include <stdlib.h>
+#include "gr_export.h"
 
 #define GR_PARSE_CMD_UNEXPECTED_EOL	(1)
 #define GR_PARSE_CMD_UNRECOGNISED_ARG	(2)
 
-struct gr_parse_arg {
+GR_CDECL_BEGIN
+
+struct GR_EXPORT gr_parse_arg {
 	const char *arg;	/* Command line argument string */
 	void *target;		/* Parsed argument will be stored here */
 	/* Parses argument cmd_arg and stores result in targer. */
@@ -18,14 +21,14 @@ struct gr_parse_arg {
 	const char *help_text;	/* Explanation for the user */
 };
 
-struct gr_parse_switch {
+struct GR_EXPORT gr_parse_switch {
 	const char *sw;		/* Command line argument switch */
 	int *target;		/* Switch bit stored here. */
 	int bit;		/* Bit in the given int. */
 	const char *help_text;	/* Explanation for the user. */
 };
 
-struct gr_cmd_parser {
+struct GR_EXPORT gr_cmd_parser {
 	size_t arg_count;
 	struct gr_parse_arg *args;
 	size_t sw_count;
@@ -38,19 +41,21 @@ struct gr_cmd_parser {
 };
 
 /* Default command line argument parsers. */
-int gr_parse_str(const char *cmd_arg, void *target);
-int gr_parse_int(const char *cmd_arg, void *target);
-int gr_parse_uint(const char *cmd_arg, void *target);
+GR_EXPORT int gr_parse_str(const char *cmd_arg, void *target);
+GR_EXPORT int gr_parse_int(const char *cmd_arg, void *target);
+GR_EXPORT int gr_parse_uint(const char *cmd_arg, void *target);
 
 /* Default error handlers. */
-void gr_parse_int_err(const char *cmd_arg);
-void gr_parse_uint_err(const char *cmd_arg);
+GR_EXPORT void gr_parse_int_err(const char *cmd_arg);
+GR_EXPORT void gr_parse_uint_err(const char *cmd_arg);
 
 /* Parses command line arguments according to given argument and switch
  * definitions.
  * */
-int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count);
+GR_EXPORT int gr_parse_cmd(struct gr_cmd_parser *parser, const char **args, size_t count);
 /* Generates help string from argument and switch definitions. */
-char * gr_parse_generate_help(struct gr_cmd_parser *parser);
+GR_EXPORT char * gr_parse_generate_help(struct gr_cmd_parser *parser);
+
+GR_CDECL_END
 
 #endif /* GRAMAS_CMD_PARSE_H */

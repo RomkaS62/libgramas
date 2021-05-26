@@ -2,8 +2,9 @@
 #define LIBGRAMAS_SPACE_H
 
 #include "matrix.h"
+#include "gr_export.h"
 
-struct gr_matrix * gr_spc_distance(
+GR_EXPORT struct gr_matrix * gr_spc_distance(
 		const struct gr_matrix * const pts1,
 		const struct gr_matrix * const pts2);
 
