@@ -48,20 +48,19 @@ struct gr_field {
 		} int_field;
 		struct {
 			struct gr_field *len_field;
-			unsigned char length;
 			char *bytes;
 		} var_len_field;
 		struct gr_field_usr usr_field;
 	};
 };
 
-long gr_field_write(
+size_t gr_field_write(
 		const struct gr_field *field,
 		char *buf,
 		size_t len,
 		enum gr_pck_parse_state *err);
 
-long gr_field_read(
+size_t gr_field_read(
 		struct gr_field *field,
 		const char *buf,
 		size_t len,
@@ -75,7 +74,7 @@ static inline size_t gr_field_length(const struct gr_field *field)
 	case GR_FIELD_INT:
 		return field->int_field.length;
 	case GR_FIELD_VAR_LENGTH:
-		return field->var_len_field.length;
+		return field->var_len_field.len_field->int_field.value;
 	case GR_FIELD_USR:
 		return field->usr_field.length(field->usr_field.usr_data);
 	default:
@@ -88,9 +87,10 @@ static inline size_t gr_field_length(const struct gr_field *field)
 static inline uint64_t read_be(const char *buf, size_t int_len)
 {
 	uint64_t ret = 0;
-	while (int_len --> 0) {
+	while (int_len > 0) {
 		ret <<= 8;
 		ret |= *buf++;
+		int_len--;
 	}
 
 	return ret;
@@ -117,9 +117,10 @@ static inline void write_be(uint64_t val, char *buf, size_t len)
 
 static inline void write_le(uint64_t val, char *buf, size_t len)
 {
-	while (len --> 0) {
+	while (len > 0) {
 		*buf++ = val & 0xFF;
 		val >>= 8;
+		len--;
 	}
 }
 

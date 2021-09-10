@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "field.h"
 
-long gr_field_write(
+size_t gr_field_write(
 		const struct gr_field *field,
 		char *buf,
 		size_t len,
@@ -15,7 +15,7 @@ long gr_field_write(
 
 	if (field_len > len) {
 		*err = GR_PCK_UNEXPECTED_END;
-		return -1;
+		return 0;
 	}
 
 	switch (field->ftype) {
@@ -33,9 +33,9 @@ long gr_field_write(
 
 	case GR_FIELD_VAR_LENGTH:
 		if (field->var_len_field.len_field->ftype != GR_FIELD_INT) {
-			return -1;
+			*err = GR_PCK_FAIL;
+			return 0;
 		}
-		field_len = field->int_field.value;
 		memcpy(buf, field->var_len_field.bytes, field_len);
 		goto success;
 
@@ -45,7 +45,7 @@ long gr_field_write(
 	default:
 		fputs("gr_field_write(): invalid tag!", stderr);
 		exit(1);
-		return -1;
+		return 0;
 	}
 
 success:
@@ -53,7 +53,7 @@ success:
 	return (long)field_len;
 }
 
-long gr_field_read(
+size_t gr_field_read(
 		struct gr_field *field,
 		const char *buf,
 		size_t len,
@@ -65,26 +65,30 @@ long gr_field_read(
 
 	if (field_len > len) {
 		*err = GR_PCK_UNEXPECTED_END;
-		return -1;
+		return 0;
 	}
 
 	switch (field->ftype) {
 	case GR_FIELD_CONST:
 		if (memcmp(field->const_field.bytes, buf, field->const_field.length)) {
 			*err = GR_PCK_FAIL;
-			return -1;
+			return 0;
 		}
 		goto success;
 
 	case GR_FIELD_INT:
 		field->int_field.value = (field->int_field.big_endian)
-			? read_be(buf, len)
-			: read_le(buf, len);
+			? read_be(buf, field_len)
+			: read_le(buf, field_len);
 
 		goto success;
 
 	case GR_FIELD_VAR_LENGTH:
-		memcpy(field->var_len_field.bytes, buf, field->var_len_field.length);
+		if (field->var_len_field.len_field->ftype != GR_FIELD_INT) {
+			*err = GR_PCK_FAIL;
+			return 0;
+		}
+		memcpy(field->var_len_field.bytes, buf, field_len);
 		goto success;
 
 	case GR_FIELD_USR:

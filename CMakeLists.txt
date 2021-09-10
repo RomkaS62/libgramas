@@ -8,6 +8,7 @@ set(DEFAULT_SRC
 	gr_str.c
 	hash_map.c
 	matrix.c
+	packet.c
 	ptr_array.c
 	space.c
 	str.c
@@ -34,6 +35,7 @@ build_test(tst_matrix_mul)
 build_test(tst_ptr_arr_add)
 build_test(tst_space_distance)
 build_test(tst_rdwr_bele)
+build_test(tst_rdwr_pck)
 build_test(tst_buf2str)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
