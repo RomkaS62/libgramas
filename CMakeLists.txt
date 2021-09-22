@@ -37,6 +37,7 @@ build_test(tst_space_distance)
 build_test(tst_rdwr_bele)
 build_test(tst_rdwr_pck)
 build_test(tst_buf2str)
+build_test(tst_hexdump)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
