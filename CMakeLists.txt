@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(libgramas VERSION 0.1.0 LANGUAGES C)
+
+set(LIB_TARGET gramas)
+project("lib${LIB_TARGET}" VERSION 0.1.0 LANGUAGES C)
 
 set(DEFAULT_SRC
 	buf.c
@@ -16,7 +18,7 @@ set(DEFAULT_SRC
 )
 macro(build_test test_name)
 	add_executable(${test_name} test/${test_name}.c)
-	target_link_libraries(${test_name} ${PROJECT_NAME})
+	target_link_libraries(${test_name} ${LIB_TARGET})
 	add_test(${test_name} ${test_name})
 endmacro()
 
@@ -24,10 +26,10 @@ include(CTest)
 enable_testing()
 
 include_directories(include)
-add_library(${PROJECT_NAME} SHARED ${DEFAULT_SRC})
+add_library(${LIB_TARGET} SHARED ${DEFAULT_SRC})
 
 if (UNIX)
-	target_link_libraries(${PROJECT_NAME} -lm)
+	target_link_libraries(${LIB_TARGET} -lm)
 endif(UNIX)
 
 build_test(tst_hash_map_put)
