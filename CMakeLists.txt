@@ -15,6 +15,7 @@ set(DEFAULT_SRC
 	space.c
 	str.c
 	utf8.c
+	list.c
 )
 macro(build_test test_name)
 	add_executable(${test_name} test/${test_name}.c)
@@ -40,6 +41,7 @@ build_test(tst_rdwr_bele)
 build_test(tst_rdwr_pck)
 build_test(tst_buf2str)
 build_test(tst_hexdump)
+build_test(tst_list_append)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

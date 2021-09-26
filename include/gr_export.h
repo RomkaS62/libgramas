@@ -8,7 +8,7 @@
 #endif
 
 #ifdef __cplusplus
-#	define	GR_CDECL_BEGIN	export "C" {
+#	define	GR_CDECL_BEGIN	extern "C" {
 #	define	GR_CDECL_END	}
 #else
 #	define	GR_CDECL_BEGIN
