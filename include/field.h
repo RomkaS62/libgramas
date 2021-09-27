@@ -16,6 +16,7 @@ enum gr_field_type {
 	GR_FIELD_CONST,
 	GR_FIELD_INT,
 	GR_FIELD_VAR_LENGTH,
+	GR_FIELD_PACKET,
 	GR_FIELD_USR
 };
 
@@ -36,6 +37,8 @@ struct gr_field_usr {
 
 struct gr_field {
 	enum gr_field_type ftype;
+	void (*on_read)(const struct gr_field *field, void *data);
+	void *data;
 	union {
 		struct {
 			char *bytes;
@@ -50,6 +53,7 @@ struct gr_field {
 			struct gr_field *len_field;
 			char *bytes;
 		} var_len_field;
+		struct gr_packet *packet;
 		struct gr_field_usr usr_field;
 	};
 };
@@ -66,23 +70,7 @@ size_t gr_field_read(
 		size_t len,
 		enum gr_pck_parse_state *err);
 
-static inline size_t gr_field_length(const struct gr_field *field)
-{
-	switch (field->ftype) {
-	case GR_FIELD_CONST:
-		return field->const_field.length;
-	case GR_FIELD_INT:
-		return field->int_field.length;
-	case GR_FIELD_VAR_LENGTH:
-		return field->var_len_field.len_field->int_field.value;
-	case GR_FIELD_USR:
-		return field->usr_field.length(field->usr_field.usr_data);
-	default:
-		fputs("gr_field_length(): invalid tag", stderr);
-		exit(1);
-		return 1;
-	}
-}
+size_t gr_field_length(const struct gr_field *field);
 
 static inline uint64_t read_be(const char *buf, size_t int_len)
 {

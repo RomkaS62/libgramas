@@ -5,6 +5,26 @@
 #include "field.h"
 #include "packet.h"
 
+static struct gr_packet subpacket = {
+	(struct gr_field[]) {
+		{
+			.ftype = GR_FIELD_CONST,
+			.const_field = {
+				.bytes = (char[]){2, 3, 4},
+				.length = 3
+			}
+		} , {
+			.ftype = GR_FIELD_INT,
+			.int_field = {
+				.value = 0,
+				.length = 3,
+				.big_endian = 1
+			}
+		}
+	},
+	2
+};
+
 static struct gr_packet packet = {
 	(struct gr_field[]) {
 		{
@@ -34,6 +54,9 @@ static struct gr_packet packet = {
 				.bytes = (char[]){0, 0, 0}
 			}
 		}, {
+			.ftype = GR_FIELD_PACKET,
+			.packet = &subpacket
+		}, {
 			.ftype = GR_FIELD_CONST,
 			.const_field = {
 				.bytes = (char[]){3, 2, 1},
@@ -41,7 +64,7 @@ static struct gr_packet packet = {
 			}
 		}
 	},
-	5
+	6
 };
 
 const char data[] = {
@@ -49,6 +72,8 @@ const char data[] = {
 	3, 2, 1,
 	0, 3,
 	5, 6, 7,
+	2, 3, 4,
+	6, 5, 4,
 	3, 2, 1
 };
 
@@ -63,6 +88,7 @@ int main(void)
 	assert(packet.fields[1].int_field.value == 0x030201);
 	assert(packet.fields[2].int_field.value == 3);
 	assert(memcmp(packet.fields[3].var_len_field.bytes, data + 8, 3) == 0);
+	assert(subpacket.fields[1].int_field.value == 0x060504);
 
 	return 0;
 }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdint.h>
 #include "field.h"
+#include "packet.h"
 
 size_t gr_field_write(
 		const struct gr_field *field,
@@ -37,6 +38,10 @@ size_t gr_field_write(
 			return 0;
 		}
 		memcpy(buf, field->var_len_field.bytes, field_len);
+		goto success;
+
+	case GR_FIELD_PACKET:
+		field_len = gr_pck_read(field->packet, buf, len, err);
 		goto success;
 
 	case GR_FIELD_USR:
@@ -91,6 +96,12 @@ size_t gr_field_read(
 		memcpy(field->var_len_field.bytes, buf, field_len);
 		goto success;
 
+	case GR_FIELD_PACKET:
+		field_len = gr_pck_read(field->packet, buf, len, err);
+		if (*err == GR_PCK_SUCCESS)
+			goto success;
+		return 0;
+
 	case GR_FIELD_USR:
 		return field->usr_field.read(buf, len, err, field->usr_field.usr_data);
 
@@ -102,5 +113,27 @@ size_t gr_field_read(
 
 success:
 	*err = GR_PCK_SUCCESS;
+	if (field->on_read)
+		field->on_read(field, field->data);
 	return (long)field_len;
+}
+
+size_t gr_field_length(const struct gr_field *field)
+{
+	switch (field->ftype) {
+	case GR_FIELD_CONST:
+		return field->const_field.length;
+	case GR_FIELD_INT:
+		return field->int_field.length;
+	case GR_FIELD_VAR_LENGTH:
+		return field->var_len_field.len_field->int_field.value;
+	case GR_FIELD_USR:
+		return field->usr_field.length(field->usr_field.usr_data);
+	case GR_FIELD_PACKET:
+		return 0;
+	default:
+		fputs("gr_field_length(): invalid tag", stderr);
+		exit(1);
+		return 1;
+	}
 }
