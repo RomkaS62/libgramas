@@ -20,24 +20,24 @@ struct GR_EXPORT gr_hash_map {
 	size_t element_count;
 	uint64_t (*hash)(const char *key);
 	int (*keys_equal)(const char *key1, const char *key2);
-	void (*free_key)(char *key);	/* Frees hash table key upon deleting an entry */
-	void (*free_data)(char *data);	/* Frees data associated with a key */
+	void (*free_key)(void *key);	/* Frees hash table key upon deleting an entry */
+	void (*free_data)(void *data);	/* Frees data associated with a key */
 };
 
 GR_EXPORT struct gr_hash_map *
 gr_hash_map_new(
 	uint64_t (*hash)(const char *key),
 	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data));
+	void (*free_key)(void *key),
+	void (*free_data)(void *data));
 
 GR_EXPORT void
 gr_hash_map_init(
 	struct gr_hash_map *map,
 	uint64_t (*hash)(const char *key),
 	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data));
+	void (*free_key)(void *key),
+	void (*free_data)(void *data));
 
 GR_EXPORT void gr_hash_map_delete(struct gr_hash_map *map);
 GR_EXPORT void gr_hash_map_free(struct gr_hash_map *map);

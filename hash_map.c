@@ -20,15 +20,15 @@ insert_entry(
 static void
 delete_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *));
+	void (*free_key)(void *),
+	void (*free_data)(void *));
 
 struct gr_hash_map *
 gr_hash_map_new(
 	uint64_t (*hash)(const char *key),
 	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data))
+	void (*free_key)(void *key),
+	void (*free_data)(void *data))
 {
 	struct gr_hash_map *ret = malloc(sizeof(*ret));
 
@@ -45,16 +45,16 @@ remove_entry(
 static void
 free_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *));
+	void (*free_key)(void *),
+	void (*free_data)(void *));
 
 void
 gr_hash_map_init(
 	struct gr_hash_map *map,
 	uint64_t (*hash)(const char *key),
 	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data))
+	void (*free_key)(void *key),
+	void (*free_data)(void *data))
 {
 	size_t i;
 
@@ -253,8 +253,8 @@ insert_entry(
 static void
 free_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *))
+	void (*free_key)(void *),
+	void (*free_data)(void *))
 {
 	free_key(entry->key);
 	free_data(entry->data);

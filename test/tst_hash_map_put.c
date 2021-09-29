@@ -3,12 +3,9 @@
 
 #include "hash_map.h"
 
-static uint64_t int_hash(char *key);
-static int int_eq(char *key1, char *key2);
-static void int_free_key(char *key);
-static void str_free_data(char *data);
+static uint64_t int_hash(const char *key);
+static int int_eq(const char *key1, const char *key2);
 static int * malloc_int(int i);
-static char * copy_str(const char *str);
 
 static int keys[] = {1, 2, 3, 4};
 static char *values[] = {"One", "Two", "Three", "Four"};
@@ -18,11 +15,11 @@ int main(int argc, char **argv)
 	int ret = 0;
 	struct gr_hash_map map;
 
-	gr_hash_map_init(&map, int_hash, int_eq, int_free_key, str_free_data);
+	gr_hash_map_init(&map, int_hash, int_eq, free, free);
 
 	for (int i = 0; i < 4; i++) {
 		char *key = (char *)malloc_int(keys[i]);
-		char *value = copy_str(values[i]);
+		char *value = strdup(values[i]);
 		gr_hash_map_put(&map, key, value);
 	}
 
@@ -39,12 +36,12 @@ fail:
 	return ret;
 }
 
-static uint64_t int_hash(char *key)
+static uint64_t int_hash(const char *key)
 {
 	return *((int*)key);
 }
 
-static int int_eq(char *_key1, char *_key2)
+static int int_eq(const char *_key1, const char *_key2)
 {
 	int key1;
 	int key2;
@@ -55,31 +52,12 @@ static int int_eq(char *_key1, char *_key2)
 	return key1 == key2;
 }
 
-static void int_free_key(char *key)
-{
-	free(key);
-}
-
-static void str_free_data(char *data)
-{
-	free(data);
-}
-
 static int * malloc_int(int i)
 {
 	int *ret;
 
 	ret = malloc(sizeof(*ret));
 	*ret = i;
-
-	return ret;
-}
-
-static char * copy_str(const char *str)
-{
-	char *ret = malloc(strlen(str) + 1);
-
-	strcpy(ret, str);
 
 	return ret;
 }
