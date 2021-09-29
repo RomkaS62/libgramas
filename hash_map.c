@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "hash_map.h"
 
 static struct gr_hash_map_entry *
@@ -13,7 +14,7 @@ static void
 insert_entry(
 	struct gr_hash_map_entry **table,
 	size_t capacity,
-	uint64_t (*hash)(char *key),
+	uint64_t (*hash)(const char *key),
 	struct gr_hash_map_entry *entry);
 
 static void
@@ -24,8 +25,8 @@ delete_entry(
 
 struct gr_hash_map *
 gr_hash_map_new(
-	uint64_t (*hash)(char *key),
-	int (*keys_equal)(char *key1, char *key2),
+	uint64_t (*hash)(const char *key),
+	int (*keys_equal)(const char *key1, const char *key2),
 	void (*free_key)(char *key),
 	void (*free_data)(char *data))
 {
@@ -50,8 +51,8 @@ free_entry(
 void
 gr_hash_map_init(
 	struct gr_hash_map *map,
-	uint64_t (*hash)(char *key),
-	int (*keys_equal)(char *key1, char *key2),
+	uint64_t (*hash)(const char *key),
+	int (*keys_equal)(const char *key1, const char *key2),
 	void (*free_key)(char *key),
 	void (*free_data)(char *data))
 {
@@ -152,6 +153,44 @@ int gr_hash_map_remove(struct gr_hash_map *map, char *key)
 	return 0;
 }
 
+uint64_t gr_hash_hash_str(const char *str)
+{
+	uint64_t ret = 0;
+	union {
+		uint64_t i;
+		char buf[sizeof(uint64_t)];
+	} val;
+
+	while (*str) {
+		memset(val.buf, 0, sizeof(val.buf));
+		strncpy(val.buf, str, sizeof(val.buf));
+		ret ^= val.i << 13 ^ val.i >> 9 ^ val.i << 23;
+		str++;
+	}
+
+	return ret;
+}
+
+int gr_hash_streq(const char *str1, const char *str2)
+{
+	return strcmp(str1, str2) == 0;
+}
+
+uint64_t gr_hash_hash_int(const char *_i)
+{
+	uint64_t i = *((int*)_i);
+
+	return i << 14 ^ i >> 7 ^ i << 3;
+}
+
+int gr_hash_inteq(const char *a, const char *b)
+{
+	int int_a = *(int*)a;
+	int int_b = *(int*)b;
+
+	return int_a == int_b;
+}
+
 static struct gr_hash_map_entry *
 gr_hash_map_entry_new(
 	char *key,
@@ -196,7 +235,7 @@ static void
 insert_entry(
 	struct gr_hash_map_entry **table,
 	size_t capacity,
-	uint64_t (*hash)(char *key),
+	uint64_t (*hash)(const char *key),
 	struct gr_hash_map_entry *entry)
 {
 	uint64_t hc = hash(entry->key);
