@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "field.h"
-#include "packet.h"
+#include "gramas/field.h"
+#include "gramas/packet.h"
 
 size_t gr_field_write(
 		const struct gr_field *field,

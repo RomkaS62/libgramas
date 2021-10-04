@@ -2,10 +2,15 @@
 #define LIBGRAMAS_HASH_MAP_H
 
 #include <stdint.h>
-#include "ptr_array.h"
-#include "gr_export.h"
+#include "gramas/ptr_array.h"
+#include "gramas/gr_export.h"
 
 GR_CDECL_BEGIN
+
+typedef uint64_t (*hash_fn)(const char *key);
+typedef int (*keys_equal_fn)(const char *key1, const char *key2);
+typedef void (*free_key_fn)(void *key);
+typedef void (*free_data_fn)(void *data);
 
 struct gr_hash_map_entry {
 	char *key;
@@ -18,26 +23,18 @@ struct GR_EXPORT gr_hash_map {
 	struct gr_hash_map_entry **entries;
 	size_t bucket_capacity;
 	size_t element_count;
-	uint64_t (*hash)(const char *key);
-	int (*keys_equal)(const char *key1, const char *key2);
-	void (*free_key)(char *key);	/* Frees hash table key upon deleting an entry */
-	void (*free_data)(char *data);	/* Frees data associated with a key */
+	hash_fn hash;
+	keys_equal_fn keys_equal;
+	free_key_fn free_key;
+	free_data_fn free_data;
 };
 
 GR_EXPORT struct gr_hash_map *
-gr_hash_map_new(
-	uint64_t (*hash)(const char *key),
-	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data));
+gr_hash_map_new(hash_fn, keys_equal_fn, free_key_fn, free_data_fn);
 
 GR_EXPORT void
-gr_hash_map_init(
-	struct gr_hash_map *map,
-	uint64_t (*hash)(const char *key),
-	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data));
+gr_hash_map_init(struct gr_hash_map *map,
+		hash_fn, keys_equal_fn, free_key_fn, free_data_fn);
 
 GR_EXPORT void gr_hash_map_delete(struct gr_hash_map *map);
 GR_EXPORT void gr_hash_map_free(struct gr_hash_map *map);

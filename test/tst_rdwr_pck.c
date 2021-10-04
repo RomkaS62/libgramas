@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "field.h"
-#include "packet.h"
+#include "gramas/field.h"
+#include "gramas/packet.h"
 
 static struct gr_packet subpacket = {
 	(struct gr_field[]) {

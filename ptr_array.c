@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "ptr_array.h"
+#include "gramas/ptr_array.h"
 
 #define TRIM_COEFF	(2)
 #define ENLARGE_COEFF	(2)

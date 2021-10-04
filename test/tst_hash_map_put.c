@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hash_map.h"
+#include "gramas/hash_map.h"
 
 static uint64_t int_hash(char *key);
 static int int_eq(char *key1, char *key2);
@@ -18,7 +18,8 @@ int main(int argc, char **argv)
 	int ret = 0;
 	struct gr_hash_map map;
 
-	gr_hash_map_init(&map, int_hash, int_eq, int_free_key, str_free_data);
+	gr_hash_map_init(&map, (hash_fn)int_hash, (keys_equal_fn)int_eq,
+			(free_key_fn)int_free_key, (free_data_fn)str_free_data);
 
 	for (int i = 0; i < 4; i++) {
 		char *key = (char *)malloc_int(keys[i]);

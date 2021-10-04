@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "str.h"
+#include "gramas/str.h"
 
 void gr_buf2hex(char **str, const char *data, size_t len)
 {

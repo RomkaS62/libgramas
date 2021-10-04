@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#include "gr_str.h"
+#include "gramas/gr_str.h"
 
 void gr_str_init(struct gr_str *str)
 {

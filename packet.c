@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "field.h"
-#include "packet.h"
+#include "gramas/field.h"
+#include "gramas/packet.h"
 
 size_t gr_pck_read(
 		struct gr_packet *packet,

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "buf.h"
+#include "gramas/buf.h"
 
 #define GROW_FACTOR	(2)
 #define BYTE_COUNT(b, from, to) ((b)->member_size * ((to) - (from)))

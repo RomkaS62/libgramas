@@ -4,8 +4,8 @@
 #include <assert.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "field.h"
-#include "str.h"
+#include "gramas/field.h"
+#include "gramas/str.h"
 
 static struct test_read_s {
 	char buf[sizeof(uint64_t)];

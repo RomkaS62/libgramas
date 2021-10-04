@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "gr_export.h"
+#include "gramas/gr_export.h"
 
 #define for_each_value(matrix_ptr, value, idx) \
 	for (size_t idx = 0; idx < (matrix_ptr)->rows * (matrix_ptr)->cols; idx++)

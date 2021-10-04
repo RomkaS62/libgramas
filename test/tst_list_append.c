@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "list.h"
+#include "gramas/list.h"
 
 static int data[] = {1, 2, 3, 4, 5, 6};
 static int *data_ptr[sizeof(data) / sizeof(data[0])];

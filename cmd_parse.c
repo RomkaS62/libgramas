@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
-#include "cmd_parse.h"
-#include "gr_str.h"
+#include "gramas/cmd_parse.h"
+#include "gramas/gr_str.h"
 
 #define buf_append_str_l(buf, str)	buf_append_arr((buf), str, sizeof(str) - 1)
 #define buf_append_str(buf, str)	buf_append_arr((buf), (str), strlen(str))

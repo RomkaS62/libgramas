@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "str.h"
+#include "gramas/str.h"
 
 enum gr_pck_parse_state {
 	GR_PCK_SUCCESS,

@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "matrix.h"
+#include "gramas/matrix.h"
 
 static double a_values[] = {
 	1.0,	2.0,	3.0,

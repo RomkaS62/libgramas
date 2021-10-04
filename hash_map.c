@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "hash_map.h"
+#include "gramas/hash_map.h"
 
 static struct gr_hash_map_entry *
 gr_hash_map_entry_new(
@@ -14,21 +14,21 @@ static void
 insert_entry(
 	struct gr_hash_map_entry **table,
 	size_t capacity,
-	uint64_t (*hash)(const char *key),
+	hash_fn hash,
 	struct gr_hash_map_entry *entry);
 
 static void
 delete_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *));
+	free_key_fn free_key,
+	free_data_fn free_data);
 
 struct gr_hash_map *
 gr_hash_map_new(
-	uint64_t (*hash)(const char *key),
-	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data))
+	hash_fn hash,
+	keys_equal_fn keys_equal,
+	free_key_fn free_key,
+	free_data_fn free_data)
 {
 	struct gr_hash_map *ret = malloc(sizeof(*ret));
 
@@ -45,16 +45,15 @@ remove_entry(
 static void
 free_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *));
+	free_key_fn free_key,
+	free_data_fn free_data);
 
-void
-gr_hash_map_init(
-	struct gr_hash_map *map,
-	uint64_t (*hash)(const char *key),
-	int (*keys_equal)(const char *key1, const char *key2),
-	void (*free_key)(char *key),
-	void (*free_data)(char *data))
+GR_EXPORT void
+gr_hash_map_init(struct gr_hash_map *map,
+		hash_fn hash,
+		keys_equal_fn keys_equal,
+		free_key_fn free_key,
+		free_data_fn free_data)
 {
 	size_t i;
 
@@ -235,7 +234,7 @@ static void
 insert_entry(
 	struct gr_hash_map_entry **table,
 	size_t capacity,
-	uint64_t (*hash)(const char *key),
+	hash_fn hash,
 	struct gr_hash_map_entry *entry)
 {
 	uint64_t hc = hash(entry->key);
@@ -253,8 +252,8 @@ insert_entry(
 static void
 free_entry(
 	struct gr_hash_map_entry *entry,
-	void (*free_key)(char *),
-	void (*free_data)(char *))
+	free_key_fn free_key,
+	free_data_fn free_data)
 {
 	free_key(entry->key);
 	free_data(entry->data);

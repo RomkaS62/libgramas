@@ -17,6 +17,7 @@ set(DEFAULT_SRC
 	utf8.c
 	list.c
 )
+
 macro(build_test test_name)
 	add_executable(${test_name} test/${test_name}.c)
 	target_link_libraries(${test_name} ${LIB_TARGET})
@@ -45,4 +46,11 @@ build_test(tst_list_append)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+
+install(TARGETS gramas
+	LIBRARY DESTINATION /usr/lib
+	PUBLIC_HEADER DESTINATION /usr/include)
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/gramas"
+	DESTINATION "/usr/include"
+	FILES_MATCHING PATTERN "*.h")

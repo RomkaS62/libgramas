@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdio.h>
-#include "str.h"
+#include "gramas/str.h"
 
 char data[] = {1, 2, 3, 4};
 char expected[] = "01 02 03 04";

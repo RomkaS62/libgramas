@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "utf8.h"
+#include "gramas/utf8.h"
 
 #define LEADING_ZEROES(num)	((~0 >> num) << num)
 #define LEADING_ONES(num)	(~LEADING_ZEROES(num))

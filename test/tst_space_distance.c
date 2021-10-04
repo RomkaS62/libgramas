@@ -1,6 +1,6 @@
 #include <math.h>
 #include <stdio.h>
-#include "space.h"
+#include "gramas/space.h"
 
 static double pts1_arr[] = {
 	-73.0,	78.0,	-17.0,

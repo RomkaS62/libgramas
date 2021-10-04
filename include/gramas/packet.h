@@ -1,7 +1,7 @@
 #ifndef LIBGRAMAS_PACKET_H
 #define LIBGRAMAS_PACKET_H
 
-#include "field.h"
+#include "gramas/field.h"
 
 struct gr_packet {
 	struct gr_field *fields;

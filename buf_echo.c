@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "buf.h"
+#include "gramas/buf.h"
 
 int main(int argc, char **argv)
 {

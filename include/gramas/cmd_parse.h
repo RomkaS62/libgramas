@@ -2,7 +2,7 @@
 #define GRAMAS_CMD_PARSE_H
 
 #include <stdlib.h>
-#include "gr_export.h"
+#include "gramas/gr_export.h"
 
 #define GR_PARSE_CMD_UNEXPECTED_EOL	(1)
 #define GR_PARSE_CMD_UNRECOGNISED_ARG	(2)

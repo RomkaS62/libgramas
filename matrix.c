@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
-#include "matrix.h"
+#include "gramas/matrix.h"
 
 void gr_mtx_init(struct gr_matrix * const mtx, const size_t rows, const size_t cols)
 {

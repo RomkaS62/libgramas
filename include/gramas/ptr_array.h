@@ -2,7 +2,7 @@
 #define PTR_ARRAY_H
 
 #include <stdlib.h>
-#include "gr_export.h"
+#include "gramas/gr_export.h"
 
 GR_CDECL_BEGIN
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "str.h"
+#include "gramas/str.h"
 
 static size_t group = 2;
 static size_t groups = 2;

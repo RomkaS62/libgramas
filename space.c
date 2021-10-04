@@ -1,5 +1,5 @@
 #include <math.h>
-#include "space.h"
+#include "gramas/space.h"
 
 struct gr_matrix * gr_spc_distance(
 		const struct gr_matrix * const pts1,

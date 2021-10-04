@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "ptr_array.h"
+#include "gramas/ptr_array.h"
 
 int main(void)
 {

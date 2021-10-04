@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "list.h"
+#include "gramas/list.h"
 
 void gr_list_free(struct gr_list *l)
 {
