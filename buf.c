@@ -110,6 +110,26 @@ void buf_append_arr(struct buffer *buf, const void *arr, const size_t members)
 	buf->used += members;
 }
 
+size_t buf_read_f(struct buffer *buf, FILE *file, size_t amount)
+{
+	return buf_read(buf, file, amount, (read_fn)fread);
+}
+
+size_t buf_read(
+		struct buffer *buf,
+		void *src,
+		size_t amount,
+		read_fn read)
+{
+	size_t ret;
+
+	buf_ensure_capacity(buf, buf->used + amount);
+	ret = read(buf->buf + buf->used, buf->member_size, amount, src);
+	buf->used += ret;
+
+	return ret;
+}
+
 static void buf_ensure_capacity(struct buffer *buf, size_t capacity)
 {
 	while (capacity > buf->capacity) buf_grow(buf);

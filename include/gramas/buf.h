@@ -28,6 +28,8 @@ struct GR_EXPORT buffer {
 			: 0;					\
 		idx++)
 
+typedef size_t (*read_fn)(char *dest, size_t membsz, size_t amount, void *src);
+
 GR_EXPORT void buf_init(struct buffer *buf, size_t member_count, size_t member_size);
 GR_EXPORT void buf_delete(struct buffer *buf);
 GR_EXPORT void buf_free(struct buffer *buf);
@@ -38,6 +40,12 @@ GR_EXPORT void buf_remove_range(struct buffer *buf, size_t from, size_t to);
 GR_EXPORT void buf_trim(struct buffer *buf);
 GR_EXPORT void buf_clear(struct buffer *buf);
 GR_EXPORT void buf_append_arr(struct buffer *buf, const void *arr, const size_t members);
+GR_EXPORT size_t buf_read_f(struct buffer *buf, FILE *file, size_t amount);
+GR_EXPORT size_t buf_read(
+		struct buffer *buf,
+		void *src,
+		size_t amount,
+		read_fn read);
 
 GR_CDECL_END
 
