@@ -12,6 +12,9 @@ struct GR_EXPORT buffer {
 	size_t capacity;	/* Capacity in members		*/
 	size_t used;		/* Members present		*/
 	size_t member_size;	/* Size of a member in bytes	*/
+#ifndef NDEBUG
+	int _untinitialized;
+#endif
 };
 
 #define buf_at(b, idx) ((b)->buf + (b)->member_size * (idx))

@@ -53,45 +53,34 @@ GR_EXPORT struct gr_matrix * gr_mtx_row_sum(const struct gr_matrix * const mtx);
 GR_EXPORT void gr_mtx_square_m(struct gr_matrix * const mtx);
 GR_EXPORT void gr_mtx_sqrt_m(struct gr_matrix * const mtx);
 
-#define _CHECK_BOUNDS(mtx_ptr, row, col)	\
-	do {	\
-		if (row > mtx->rows) {	\
-			fputs("Matrix row out of bounds!", stderr);	\
-			return;	\
-		}	\
-		if (col > mtx->cols) {	\
-			fputs("Matrix column out of bounds!", stderr);	\
-			return;	\
-		}	\
-	} while (0)
-
-#define _CHECK_BOUNDS_RET(mtx_ptr, row, col, val)	\
-	do {	\
-		if (row > mtx->rows) {	\
-			fputs("Matrix row out of bounds!", stderr);	\
-			return val;	\
-		}	\
-		if (col > mtx->cols) {	\
-			fputs("Matrix column out of bounds!", stderr);	\
-			return val;	\
-		}	\
-	} while (0)
+static inline void __mtx_check_bounds(const struct gr_matrix *mtx, size_t row,
+		size_t col)
+{
+	if (row > mtx->rows) {
+		fputs("Matrix row out of bounds!", stderr);
+		exit(1);
+	}
+	if (col > mtx->cols) {
+		fputs("Matrix column out of bounds!", stderr);
+		exit(1);
+	}
+}
 
 static inline void gr_mtx_set(struct gr_matrix *mtx, size_t row, size_t col, double val)
 {
-	_CHECK_BOUNDS(mtx, row, col);
+	__mtx_check_bounds(mtx, row, col);
 	mtx->values[mtx->cols * row + col] = val;
 }
 
 static inline void gr_mtx_add_val(struct gr_matrix *mtx, size_t row, size_t col, double val)
 {
-	_CHECK_BOUNDS(mtx, row, col);
+	__mtx_check_bounds(mtx, row, col);
 	mtx->values[mtx->cols * row + col] += val;
 }
 
 static inline double gr_mtx_val(const struct gr_matrix *mtx, size_t row, size_t col)
 {
-	_CHECK_BOUNDS_RET(mtx, row, col, 0.0);
+	__mtx_check_bounds(mtx, row, col);
 	return mtx->values[mtx->cols * row + col];
 }
 
